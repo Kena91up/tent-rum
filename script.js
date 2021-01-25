@@ -24,9 +24,10 @@ let lionY = 292;
 let lionX = 100;
 let incrementX = 50;
 let incrementY = 50;
-let incrementLion = 5;
+let incrementLion = 1;
 
-let keyup;
+let keyup = false;
+let keybot = false;
 
 let constant = firePotImg.height + 120
 let circleArray = [{x: canvas.width -80 , y:120}]
@@ -51,15 +52,21 @@ document.addEventListener('keydown',(event) => {
 })
 
 document.addEventListener('keyup',(event) => {
-   if(event.keyCode == 36  || event,key == "ArrowUp"){
+   if(event.keycode == 38  || event.key == "ArrowUp"){
        keyup = true;
    }
 },false);
+document.addEventListener('keybot',(event) => {
+    if(event.keycode == 40  || event.key == "ArrowDown"){
+        keybot = true;
+    }
+ },false);
+  
  
 function ballCollision(){
 
     //check for circel
-      if( lionX + lion.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
+      if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
           score++
       } else {
         clearInterval(intervalID);
@@ -76,7 +83,7 @@ function draw(){
       for(let i=0; i< circleArray.length; i++){
         ctx.drawImage(fireCirImg, circleArray[i].x, circleArray[i].y , 100, 245)
         ctx.drawImage(firePotImg, circleArray[i].x, circleArray[i].y + constant ,90, 80)
-        console.log("circleArray")
+        
         circleArray[i].x--
     }
       if(circleArray[circleArray.length-1].x < 30){
@@ -86,22 +93,22 @@ function draw(){
           })
       }
 
-      ballCollision();
-       if(isRightArrow && (lionX + lionImg.Width < canvas.width)) {
+       if(isRightArrow && lionX > 0 ) {
         lionX += incrementLion
-        console.log(lionX)
 
        } else if( isLeftArrow && lionX >0)
        {
            lionX -= incrementLion
-       } else if(keyup && lionY >0){
-           lionY += incrementLion
+       } else if(keyup && lionY > 180){
+           lionY -= incrementLion
+       } else if (keybot && lionY > 0) {
+        lionY += incrementLion
        }
      // lionX += incrementX
      // lionY += incrementY
      ctx.font = '20px Verdana'
     ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
-      
+    ballCollision();
      }
 
 function startGame(){
