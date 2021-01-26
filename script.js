@@ -5,6 +5,7 @@ let startBtn = document.querySelector('.btn-secondary')
 let intervalID = 0
 
 let score = 0;
+let i = 0;
 
 let backImg = new Image(1000 ,500)
 backImg.src = 'images/background.png'
@@ -22,12 +23,12 @@ let isLeftArrow = false
 let isRightArrow = false
 let lionY = 292;
 let lionX = 100;
-let incrementX = 50;
-let incrementY = 50;
+let incrementX = 1;
+let incrementY = 1;
 let incrementLion = 1;
 
-let keyup = false;
-let keybot = false;
+let isUpArrow = false;
+let isDownArrow = false;
 
 let constant = firePotImg.height + 120
 let circleArray = [{x: canvas.width -80 , y:120}]
@@ -43,37 +44,29 @@ myAudio.addEventListener('ended', function() {
 document.addEventListener('keydown',(event) => {
     if(event.keycode == 39 || event.key == "ArrowRight"){
         isRightArrow = true;
+        isUpArrow = false;
         isLeftArrow = false;
+        isDownArrow = false;
+
     }
     else if (event.keycode == 37 || event.key == "ArrowLeft") {
        isRightArrow = false;
        isLeftArrow = true;
-    }
-})
+       isUpArrow = false;
+       isDownArrow = false;
+    } else  if(event.keycode == 38  || event.key == "ArrowUp"){
+        isUpArrow = true;
+        isDownArrow = false;
+        isLeftArrow = false;
+        isRightArrow = false;
 
-document.addEventListener('keyup',(event) => {
-   if(event.keycode == 38  || event.key == "ArrowUp"){
-       keyup = true;
-   }
-},false);
-document.addEventListener('keybot',(event) => {
-    if(event.keycode == 40  || event.key == "ArrowDown"){
-        keybot = true;
-    }
- },false);
-  
- 
-function ballCollision(){
-
-    //check for circel
-      if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
-          score++
-      } else {
-        clearInterval(intervalID);
-        alert('Game Over')
-      }
+   }else if(event.keycode == 40  || event.key == "ArrowDown"){
+        isUpArrow = false;
+        isDownArrow = true;
+        isLeftArrow = false;
+        isRightArrow = false;
 }
-
+})
 
 function draw(){
     
@@ -82,9 +75,11 @@ function draw(){
       ctx.drawImage(lionImg, lionX, lionY ,120 ,120)
       for(let i=0; i< circleArray.length; i++){
         ctx.drawImage(fireCirImg, circleArray[i].x, circleArray[i].y , 100, 245)
-        ctx.drawImage(firePotImg, circleArray[i].x, circleArray[i].y + constant ,90, 80)
+        ctx.drawImage(firePotImg, circleArray[i].x + 400, circleArray[i].y + constant ,90, 80)
         
         circleArray[i].x--
+
+        
     }
       if(circleArray[circleArray.length-1].x < 30){
         circleArray.push({
@@ -96,20 +91,39 @@ function draw(){
        if(isRightArrow && lionX > 0 ) {
         lionX += incrementLion
 
-       } else if( isLeftArrow && lionX >0)
-       {
-           lionX -= incrementLion
-       } else if(keyup && lionY > 180){
+       } else if( isLeftArrow && lionX >0){
+          lionX -= incrementLion
+
+       } else if(isUpArrow && lionY > 180){
            lionY -= incrementLion
-       } else if (keybot && lionY > 0) {
+
+       } else if (isDownArrow && lionY < 292) {
+          lionY += incrementLion
+       }
+
+       // when player jumps to the top, then isUpKey should be false
+
+       // Automatic fall down
+       if (lionY > 180 && lionY < 292 && !isUpArrow) {
         lionY += incrementLion
        }
-     // lionX += incrementX
-     // lionY += incrementY
+
      ctx.font = '20px Verdana'
     ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
-    ballCollision();
+    lionCollision();
      }
+     function lionCollision(){
+
+        //check for circel
+        
+         // if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
+           if(lionX < circleArray[i].x + circleArray[i].width && lionX + lionImg.width > circleArray[i].x && lionY < circleArray[i].y + circleArray[i].height && lionY + lionImg.height > circleArray[i].y){
+              score++
+          } else {
+            clearInterval(intervalID);
+            alert('Game Over')
+          }
+    }
 
 function startGame(){
     canvas.style.display = 'block'
