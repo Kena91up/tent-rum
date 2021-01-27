@@ -11,13 +11,13 @@ let backImg = new Image(1000 ,500)
 backImg.src = 'images/background.png'
 
 let fireCirImg = new Image(100, 100)
-fireCirImg.src = 'images/firecir2.jpg'
+fireCirImg.src = 'images/firecircle.png'
 
 let firePotImg = new Image(100, 100)
 firePotImg.src = 'images/firepot.png'
 
 let lionImg = new Image(100, 100)
-lionImg.src = 'images/lion2.jpg'
+lionImg.src = 'images/lion2.png'
 
 let isLeftArrow = false
 let isRightArrow = false
@@ -69,7 +69,8 @@ document.addEventListener('keydown',(event) => {
 })
 
 function draw(){
-    
+     ctx.clearRect(0, 0,canvas.width, canvas.height) 
+
       ctx.drawImage(backImg ,0 ,0, 1000, 500)
       
       ctx.drawImage(lionImg, lionX, lionY ,120 ,120)
@@ -82,6 +83,7 @@ function draw(){
         
     }
       if(circleArray[circleArray.length-1].x < 30){
+          score++
         circleArray.push({
               x: canvas.width ,
               y: fireCirImg.height + 20
@@ -108,33 +110,40 @@ function draw(){
         lionY += incrementLion
        }
 
-     ctx.font = '20px Verdana'
-    ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
-    lionCollision();
+      ctx.font = '20px Verdana'
+      ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
+      lionCollision();
+      
      }
      function lionCollision(){
 
         //check for circel
-        
-         // if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
-           if(lionX < circleArray[i].x + circleArray[i].width && lionX + lionImg.width > circleArray[i].x && lionY < circleArray[i].y + circleArray[i].height && lionY + lionImg.height > circleArray[i].y){
-              score++
-          } else {
-            clearInterval(intervalID);
-            alert('Game Over')
+        for(let i=0; i< circleArray.length; i++){
+          if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
+            console.log("colliding")
+
           }
+
+  
+        // if(lionX < circleArray[i].x + circleArray[i].width && lionX + lionImg.width > circleArray[i].x && lionY < circleArray[i].y + circleArray[i].height && lionY + lionImg.height > circleArray[i].y){}
+        }
+        if (lionX <= circleArray[i]) {
+            clearInterval(intervalID);
+            alert('Game Over');
+            location.reload();
+        }
     }
 
 function startGame(){
     canvas.style.display = 'block'
-    startBtn.style.disply = 'none'
+    startBtn.style.display = 'none'
      intervalID = setInterval(() =>{
       requestAnimationFrame(draw) //too imp otherwise crash laptop
 },30)
 }
 function gameOver(){
     canvas.style.display = 'block'
-    startBtn.style.disply = 'none'
+    startBtn.style.display = 'none'
 }
 window.addEventListener('load', () =>{
     intervalID = setInterval(() => {
