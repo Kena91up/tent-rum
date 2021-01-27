@@ -9,9 +9,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button type="button"class="btn btn-secondary" >Start Game</button>
+    <div id="all">
+        <h1><img src="./images/backgr.jpg" height="100" id="bg">Charlie Circus</h1>
+        <section id="startscreen">
+            <button type="button"class="btn btn-secondary" >Start Game</button>
+            <canvas width="1000" height="600" style="display: block; touch-action: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 1024px; height: 768px; margin-left: 87px; margin-top: 77px; cursor: inherit;"></canvas>
+        </section>
+        <section id="end" class="hidden">
+            <div id="game-over" class="over">
+                <button class="exit" onclick="location.href='https://www.bonprix.de'">Exit</button>
+                <p>Score:</p>
+                <p id="final-score"></p>
+                <ol id="score-list"></ol>
+                <div>
+                    <p>
+                    
+                    </p>
+                </div>
+                
+            </div>
+        </section>
+    
+    </div>
+    <!-- <img src="images/backgr.jpg">  -->
+    
     <div id="game"></div>
-    <canvas width="1000" height="700" style="display: block; touch-action: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 1024px; height: 768px; margin-left: 87px; margin-top: 77px; cursor: inherit;"></canvas></canvas>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="main.js"></script>
     <script src="script.js"></script>

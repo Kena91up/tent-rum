@@ -2,6 +2,7 @@ let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
 
 let startBtn = document.querySelector('.btn-secondary')
+let gameoverBtn = document.querySelector('.exit')
 let intervalID = 0
 
 let score = 0;
@@ -33,6 +34,7 @@ let isDownArrow = false;
 let constant = firePotImg.height + 120
 let circleArray = [{x: canvas.width -80 , y:120}]
 
+let touchfire = {x:fireCirImg, y:firePotImg};
 let myAudio = new Audio('audio/stage1.mp3'); 
 myAudio.addEventListener('ended', function() {
     this.currentTime = 0;
@@ -119,19 +121,41 @@ function draw(){
 
         //check for circel
         for(let i=0; i< circleArray.length; i++){
-          if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant) || lionY + lionImg.height >= canvas.height - firePotImg.height){
-            console.log("colliding")
+          //if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant)){
+            //  console.log("circle collision")
+       // }
+          //if (lionX + lionImg.width >= circleArray[i].x + 400 && lionX <= circleArray[i].x + firePotImg.width + 400 && (lionY <= circleArray[i].y + firePotImg.height || lionY + lionImg.height >= circleArray[i].y + constant)){
+            //console.log("pot collission")
+          //}
+          // fire pot collission
+            if (lionX <  circleArray[i].x + 400 + firePotImg.width &&
+                lionX + lionImg.width >  circleArray[i].x + 400 &&
+                lionY <  circleArray[i].y + firePotImg.height + constant&&
+                lionY + lionImg.height >  circleArray[i].y + constant) {
+                    console.log("fire pot col")
+                    clearInterval(intervalID);
+                    alert('Game Over');
+                    location.reload();
+            }
 
-          }
+            // circle bottom collission
+            if (lionX <  circleArray[i].x +  fireCirImg.width &&
+                lionX + lionImg.width >  circleArray[i].x  &&
+                lionY <  circleArray[i].y + fireCirImg.height + 200 &&
+                lionY + lionImg.height >  circleArray[i].y + 200) {
+                    console.log("fire circle col")
+                    
+                    alert('Game Over');
+                    document.location.reload();
+                    clearInterval(intervalID);
+            }
 
-  
-        // if(lionX < circleArray[i].x + circleArray[i].width && lionX + lionImg.width > circleArray[i].x && lionY < circleArray[i].y + circleArray[i].height && lionY + lionImg.height > circleArray[i].y){}
-        }
-        if (lionX <= circleArray[i]) {
-            clearInterval(intervalID);
-            alert('Game Over');
-            location.reload();
-        }
+        // if (lionImg.touchfire ) {
+        //     clearInterval(intervalID);
+        //     alert('Game Over');
+        //     location.reload();
+        // }
+    }
     }
 
 function startGame(){
@@ -143,7 +167,10 @@ function startGame(){
 }
 function gameOver(){
     canvas.style.display = 'block'
-    startBtn.style.display = 'none'
+    gameoverBtn.style.display = 'none'
+    intervalID = setInterval(() =>{
+    //too imp otherwise crash laptop
+  },30)
 }
 window.addEventListener('load', () =>{
     intervalID = setInterval(() => {

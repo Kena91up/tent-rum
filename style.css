@@ -1,15 +1,37 @@
-body{
-    background-image: 'images/back.jpg';
-}
 
-button {
+#all {
+    display: flex;
+    background-color: rgb(88, 139, 118);
+    flex-direction: column;
+    justify-content: center;
+    height: 960px;
+    width: 1900px;
+}
+h1 {
+    padding: 0em 2em;
+    font-size: 5em;
+    letter-spacing: .15em;
+    font-family: 'Hanalei';
+    color: rgb(59, 72, 80);
+    text-shadow: 2px 2px 8px rgb(160, 184, 140);
+    text-align: center;
+    margin: .2em 0;
+    padding: .3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: all .8s ease-in-out;
+}
+.btn-secondary , button   {
+
     color: rgb(83, 70, 44);
-    background: rgb(224, 125, 59);
+    background: rgb(241, 130, 55);
     cursor: pointer;
     outline: none;
     border: none;
-    padding: 1em;
-    width: 230px;
+    padding: 10px 30px;
+    width: 200px;
     font-size: 1.5em;
     margin: 1.6em 0;
     border-radius: 7px;
