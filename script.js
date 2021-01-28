@@ -101,7 +101,7 @@ function draw(){
       }, 1000)
    }
       ctx.font = '20px Verdana'
-      ctx.fillText('score: 2', 20 ,canvas.height - 50)
+      ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
       lionCollision();
       
 }
@@ -140,7 +140,7 @@ function startGame(){
 function gameOver(){
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'block'
-    //scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
+    scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
     intervalID = setInterval(() =>{
      //too imp otherwise crash laptop
   },30)
