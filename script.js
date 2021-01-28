@@ -100,8 +100,8 @@ function draw(){
                lionCanJump = true
       }, 1000)
    }
-       //ctx.font = '20px Verdana'
-      //ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
+      ctx.font = '20px Verdana'
+      ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
       lionCollision();
       
 }
