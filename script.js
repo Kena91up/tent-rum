@@ -2,6 +2,7 @@ let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
 
 let startBtn = document.querySelector('.btn-secondary')
+let scoreLevel = document.querySelector('.final-score')
 let gameoverBtn = document.querySelector('.exit')
 let intervalID = 0
 
@@ -26,6 +27,7 @@ let lionY = 292;
 let lionX = 100;
 let incrementX = 1;
 let incrementY = 1;
+let incrementLionY = 180;
 let incrementLion = 1;
 
 let isUpArrow = false;
@@ -99,11 +101,16 @@ function draw(){
           lionX -= incrementLion
 
        } else if(isUpArrow && lionY > 180){
-           lionY -= incrementLion
+           if(lionY <= 292){
+           lionY -= incrementLionY
+           intervalID = setInterval(() =>{
+               lionY = 292
+      },100)
+        }
 
        } else if (isDownArrow && lionY < 292) {
           lionY += incrementLion
-       }
+       } 
 
        // when player jumps to the top, then isUpKey should be false
 
@@ -121,40 +128,30 @@ function draw(){
 
         //check for circel
         for(let i=0; i< circleArray.length; i++){
-          //if( lionX + lionImg.width >= circleArray[i].x && lionY <= circleArray[i].x + fireCirImg.width && (lionY <= circleArray[i].y + fireCirImg.height || lionY + lionImg.height >= circleArray[i].y + constant)){
-            //  console.log("circle collision")
-       // }
-          //if (lionX + lionImg.width >= circleArray[i].x + 400 && lionX <= circleArray[i].x + firePotImg.width + 400 && (lionY <= circleArray[i].y + firePotImg.height || lionY + lionImg.height >= circleArray[i].y + constant)){
-            //console.log("pot collission")
-          //}
           // fire pot collission
             if (lionX <  circleArray[i].x + 400 + firePotImg.width &&
                 lionX + lionImg.width >  circleArray[i].x + 400 &&
                 lionY <  circleArray[i].y + firePotImg.height + constant&&
                 lionY + lionImg.height >  circleArray[i].y + constant) {
-                    console.log("fire pot col")
-                    clearInterval(intervalID);
-                    alert('Game Over');
-                    location.reload();
-            }
+                    //clearInterval(intervalID);
+                   // alert('Game Over');
+                   gameOver();
+                   break;
+
+                  }
 
             // circle bottom collission
             if (lionX <  circleArray[i].x +  fireCirImg.width &&
                 lionX + lionImg.width >  circleArray[i].x  &&
                 lionY <  circleArray[i].y + fireCirImg.height + 200 &&
                 lionY + lionImg.height >  circleArray[i].y + 200) {
-                    console.log("fire circle col")
-                    
-                    alert('Game Over');
-                    document.location.reload();
+                    //alert('Game Over');
                     clearInterval(intervalID);
+                    gameOver();
+                    break;
+                   // canvas.style.display = 'none'
             }
 
-        // if (lionImg.touchfire ) {
-        //     clearInterval(intervalID);
-        //     alert('Game Over');
-        //     location.reload();
-        // }
     }
     }
 
@@ -166,22 +163,28 @@ function startGame(){
 },30)
 }
 function gameOver(){
-    canvas.style.display = 'block'
-    gameoverBtn.style.display = 'none'
+    canvas.style.display = 'none'
+    gameoverBtn.style.display = 'block'
     intervalID = setInterval(() =>{
-    //too imp otherwise crash laptop
+     //too imp otherwise crash laptop
   },30)
 }
 window.addEventListener('load', () =>{
+   
     intervalID = setInterval(() => {
         requestAnimationFrame(draw)
      }, 10)
-    requestAnimationFrame(draw)
+     
 },0)
 window.addEventListener('load', () => {
+    scoreLevel.style.fillText="2"
     canvas.style.display = 'none'
+    gameoverBtn.style.display = 'none'
      startBtn.addEventListener('click', () =>{
         startGame()
     })
+    gameoverBtn.addEventListener('click', () =>{
+        exit()
+    },10)
 
 })
