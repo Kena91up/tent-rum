@@ -61,12 +61,7 @@ document.addEventListener('keydown',(event) => {
         isRightArrow = false;
     }
 })
-function drawscore(){
-    ctx.font = '20px Verdana'
-      ctx.fillText('score: ' + score, 100 ,480)
-      scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
-    
-}
+
 function draw(){
      ctx.clearRect(0, 0,canvas.width, canvas.height) 
      ctx.drawImage(backImg ,0 ,0, 1000, 500)
@@ -100,12 +95,15 @@ function draw(){
     } 
            // preventing the lion from jumping forever
       if (lionY < 195 && lionCanJump) {
-           lionCanJump = false
+           lionCanJump = true
            setTimeout(() => {
-               lionCanJump = true
-      }, 1000)
+               lionCanJump = false
+      }, 2500)
    }
-    lionCollision();
+      ctx.font = '20px Verdana'
+      ctx.fillText('score: ' + score, 100 ,480)
+      lionCollision();
+      
 }
 function lionCollision(){
        //check for circel
@@ -131,6 +129,7 @@ function lionCollision(){
 
     }
 }
+
 function startGame(){
     canvas.style.display = 'block'
     startBtn.style.display = 'none'
@@ -141,6 +140,7 @@ function startGame(){
 function gameOver(){
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'block'
+    scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
     intervalID = setInterval(() =>{
      //too imp otherwise crash laptop
   },20)
