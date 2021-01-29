@@ -29,7 +29,7 @@ let constant = firePotImg.height + 120
 let circleArray = [{x: canvas.width -80 , y:120}]
 let touchfire = {x:fireCirImg, y:firePotImg};
 let myAudio = new Audio('audio/failure.mp3'); 
-
+ // lion jumping
 document.addEventListener("keyup", (event) => {
     isRightArrow = false;
     isUpArrow = false;
@@ -61,7 +61,12 @@ document.addEventListener('keydown',(event) => {
         isRightArrow = false;
     }
 })
-
+function drawscore(){
+    ctx.font = '20px Verdana'
+      ctx.fillText('score: ' + score, 100 ,480)
+      scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
+    
+}
 function draw(){
      ctx.clearRect(0, 0,canvas.width, canvas.height) 
      ctx.drawImage(backImg ,0 ,0, 1000, 500)
@@ -100,10 +105,7 @@ function draw(){
                lionCanJump = true
       }, 1000)
    }
-      ctx.font = '20px Verdana'
-      ctx.fillText('score: ' + score, 20 ,canvas.height - 50)
-      lionCollision();
-      
+    lionCollision();
 }
 function lionCollision(){
        //check for circel
@@ -115,7 +117,7 @@ function lionCollision(){
            lionY + lionImg.height >  circleArray[i].y + constant) {
              //clearInterval(intervalID);
               gameOver();
-              break;
+               break;     
       }
            // circle bottom collission
        if (lionX <  circleArray[i].x +  fireCirImg.width &&
@@ -129,27 +131,25 @@ function lionCollision(){
 
     }
 }
-
 function startGame(){
     canvas.style.display = 'block'
     startBtn.style.display = 'none'
     intervalID = setInterval(() =>{
       requestAnimationFrame(draw) //too imp otherwise crash laptop
-},30)
+},20)
 }
 function gameOver(){
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'block'
-    scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
     intervalID = setInterval(() =>{
      //too imp otherwise crash laptop
-  },30)
+  },20)
 }
 window.addEventListener('load', () =>{
     intervalID = setInterval(() => {
         requestAnimationFrame(draw)
-     },30)
-},0)
+     },20)
+})
 window.addEventListener('load', () => {
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'none'
@@ -158,6 +158,5 @@ window.addEventListener('load', () => {
     })
     gameoverBtn.addEventListener('click', () =>{
         exit()
-    },)
-
+    })
 })
