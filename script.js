@@ -84,7 +84,7 @@ function draw(){
     // automatic falldown
     if (!lionIsJumpimg && lionY < 292)  {
         lionY += incrementLion
-        myAudio.volume=0.2;
+        myAudio.volume=0.025;
         myAudio.play()
   }
     if(isRightArrow && lionX > 0 ) {
