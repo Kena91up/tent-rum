@@ -56,7 +56,7 @@ document.addEventListener('keydown',(event) => {
      setTimeout(() => {
      lionIsJumpimg = false
      console.log(lionIsJumpimg)
-  }, 2500)
+  }, 1100)
   } else if (event.keycode == 40  || event.key == "ArrowDown"){
     isUpArrow = false;
     isDownArrow = true;
@@ -129,7 +129,7 @@ function startGame(){
     startBtn.style.display = 'none'
     intervalID = setInterval(() =>{
       requestAnimationFrame(draw) //too imp otherwise crash laptop
-},20)
+},10)
 }
 function gameOver(){
     canvas.style.display = 'none'
@@ -138,12 +138,12 @@ function gameOver(){
     reStartBtn.style.display= "block"
     intervalID = setInterval(() =>{
      //too imp otherwise crash laptop
-  },20)
+  },10)
 }
 window.addEventListener('load', () =>{
     intervalID = setInterval(() => {
      requestAnimationFrame(draw)
-     },20)
+     },10)
 })
 
 window.addEventListener('load', () => {
