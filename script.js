@@ -56,7 +56,7 @@ document.addEventListener('keydown',(event) => {
      setTimeout(() => {
      lionIsJumpimg = false
      console.log(lionIsJumpimg)
-  }, 2200)
+  }, 2500)
   } else if (event.keycode == 40  || event.key == "ArrowDown"){
     isUpArrow = false;
     isDownArrow = true;
@@ -142,9 +142,10 @@ function gameOver(){
 }
 window.addEventListener('load', () =>{
     intervalID = setInterval(() => {
-        requestAnimationFrame(draw)
+     requestAnimationFrame(draw)
      },20)
 })
+
 window.addEventListener('load', () => {
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'none'
