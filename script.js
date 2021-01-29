@@ -3,6 +3,7 @@ let ctx = canvas.getContext('2d')
 let startBtn = document.querySelector('.btn-secondary')
 let scoreLevel = document.querySelector('.final-score')
 let gameoverBtn = document.querySelector('.exit')
+let reStartBtn = document.querySelector('.rebtn')
 let intervalID = 0
 let score = 0;
 let i = 0;
@@ -13,7 +14,7 @@ fireCirImg.src = 'images/firecircle.png'
 let firePotImg = new Image(100, 100)
 firePotImg.src = 'images/firepot.png'
 let lionImg = new Image(100, 100)
-lionImg.src = 'images/lion2.png'
+lionImg.src = 'images/lion3.png'
 let isLeftArrow = false
 let isRightArrow = false
 let lionY = 292;
@@ -24,7 +25,7 @@ let incrementLionY = 180;
 let incrementLion = 5;
 let isUpArrow = false;
 let isDownArrow = false;
-let lionCanJump = true;
+let lionIsJumpimg = false;
 let constant = firePotImg.height + 120
 let circleArray = [{x: canvas.width -80 , y:120}]
 let touchfire = {x:fireCirImg, y:firePotImg};
@@ -39,67 +40,62 @@ document.addEventListener("keyup", (event) => {
 
 //lion moving
 document.addEventListener('keydown',(event) => {
-    if (event.keycode == 39 || event.key == "ArrowRight"){
-        isRightArrow = true;
-        isUpArrow = false;
-        isLeftArrow = false;
-        isDownArrow = false;
-    } else if (event.keycode == 37 || event.key == "ArrowLeft") {
-       isRightArrow = false;
-       isLeftArrow = true;
-       isUpArrow = false;
-       isDownArrow = false;
-    } else if ((event.keycode == 38  || event.key == "ArrowUp") && lionCanJump){
-        isUpArrow = true;
-        isDownArrow = false;
-        isLeftArrow = false;
-        isRightArrow = false;
-    } else if (event.keycode == 40  || event.key == "ArrowDown"){
-        isUpArrow = false;
-        isDownArrow = true;
-        isLeftArrow = false;
-        isRightArrow = false;
-    }
+ if (event.keycode == 39 || event.key == "ArrowRight"){
+    isRightArrow = true;
+    isUpArrow = false;
+    isLeftArrow = false;
+    isDownArrow = false;
+  } else if (event.keycode == 37 || event.key == "ArrowLeft") {
+    isRightArrow = false;
+    isLeftArrow = true;
+    isUpArrow = false;
+    isDownArrow = false;
+  } else if ((event.keycode == 38  || event.key == "ArrowUp") && !lionIsJumpimg){
+    lionIsJumpimg = true;
+    console.log(lionIsJumpimg)
+     setTimeout(() => {
+     lionIsJumpimg = false
+     console.log(lionIsJumpimg)
+  }, 2200)
+  } else if (event.keycode == 40  || event.key == "ArrowDown"){
+    isUpArrow = false;
+    isDownArrow = true;
+    isLeftArrow = false;
+    isRightArrow = false;
+  }
 })
 
 function draw(){
-     ctx.clearRect(0, 0,canvas.width, canvas.height) 
-     ctx.drawImage(backImg ,0 ,0, 1000, 500)
-     ctx.drawImage(lionImg, lionX, lionY ,120 ,120)
-      for(let i=0; i< circleArray.length; i++){
-        ctx.drawImage(fireCirImg, circleArray[i].x, circleArray[i].y , 100, 245)
-        ctx.drawImage(firePotImg, circleArray[i].x + 400, circleArray[i].y + constant ,90, 80)
-        circleArray[i].x--
-   }
-      if(circleArray[circleArray.length-1].x < 30){
-          score++
-          circleArray.push({
-          x: canvas.width ,
-          y: fireCirImg.height + 20
-        })
-      }
-         // automatic falldown
-      if (!lionCanJump && lionY < 292)  {
-         lionY += incrementLion
-         myAudio.volume=0.2;
-         myAudio.play()
-    }
-      if(isRightArrow && lionX > 0 ) {
-          lionX += incrementLion
-    } else if( isLeftArrow && lionX >0){
-          lionX -= incrementLion
-    } else if(isUpArrow && lionY > 180 && lionCanJump){
-          lionY -= incrementLion
-    } else if (isDownArrow && lionY < 292) {
-           lionY += incrementLion
-    } 
-           // preventing the lion from jumping forever
-      if (lionY < 195 && lionCanJump) {
-           lionCanJump = true
-           setTimeout(() => {
-               lionCanJump = false
-      }, 2500)
-   }
+    ctx.clearRect(0, 0,canvas.width, canvas.height) 
+    ctx.drawImage(backImg ,0 ,0, 1000, 500)
+    ctx.drawImage(lionImg, lionX, lionY ,120 ,120)
+     for(let i=0; i< circleArray.length; i++){
+      ctx.drawImage(fireCirImg, circleArray[i].x, circleArray[i].y , 100, 245)
+      ctx.drawImage(firePotImg, circleArray[i].x + 400, circleArray[i].y + constant ,90, 80)
+      circleArray[i].x--
+  }
+    if(circleArray[circleArray.length-1].x < 30){
+        score++
+        circleArray.push({
+        x: canvas.width ,
+        y: fireCirImg.height + 20
+  })
+ }
+    // automatic falldown
+    if (!lionIsJumpimg && lionY < 292)  {
+        lionY += incrementLion
+        myAudio.volume=0.2;
+        myAudio.play()
+  }
+    if(isRightArrow && lionX > 0 ) {
+       lionX += incrementLion
+  } else if( isLeftArrow && lionX >0){
+       lionX -= incrementLion
+     } 
+     // before automatic movment jump
+     if(lionIsJumpimg && lionY > 160){
+        lionY -=incrementLion
+     }
       ctx.font = '20px Verdana'
       ctx.fillText('score: ' + score, 100 ,480)
       lionCollision();
@@ -126,10 +122,8 @@ function lionCollision(){
               gameOver();
               break;
       }
-
     }
 }
-
 function startGame(){
     canvas.style.display = 'block'
     startBtn.style.display = 'none'
@@ -140,7 +134,8 @@ function startGame(){
 function gameOver(){
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'block'
-    scoreLevel.querySelector(".final-score").innerText = "Your Score: " + score;
+    scoreLevel.innerText = "Your Score: " + score;
+    reStartBtn.style.display= "block"
     intervalID = setInterval(() =>{
      //too imp otherwise crash laptop
   },20)
@@ -153,6 +148,7 @@ window.addEventListener('load', () =>{
 window.addEventListener('load', () => {
     canvas.style.display = 'none'
     gameoverBtn.style.display = 'none'
+    reStartBtn.style.display= "none"
     startBtn.addEventListener('click', () =>{
         startGame()
     })

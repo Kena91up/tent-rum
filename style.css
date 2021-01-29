@@ -59,3 +59,20 @@ h3 {
     align-items: center;
     transition: all .8s ease-in-out;
 }
+.rebtn{
+    color: rgb(83, 70, 44);
+    background: rgb(241, 130, 55);
+    cursor: pointer;
+    outline: none;
+    border: none;
+    padding: 10px 30px;
+    width: 200px;
+    font-size: 1.5em;
+    margin: 1.6em 26em;
+    border-radius: 7px;
+    font-family: 'Potta One';
+    transition: all .5s ease-in-out;
+    box-shadow: -7px 10px 16px -5px rgba(0,0,0,0.35);
+    text-align: center;
+
+}
